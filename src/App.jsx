@@ -2,7 +2,7 @@ import SignInForm from './components/SignInForm';
 import SignupPage from './pages/Signup';
 
 function App() {
-  return <SignInForm />;
+  return <SignupPage />;
 }
 
 export default App;
