@@ -1,98 +1,65 @@
 import React, { Component } from 'react';
 import { SIGN_UP_CHEMA } from '../../utils/validationSchemas';
+import { Formik, Form, Field } from 'formik';
 
 function signupUser(user) {
   alert('You are signed up!');
 }
 
-
 class SignupForm extends Component {
-  state = {
-    login: '',
-    password: '',
-    passwordConfirm: '',
-    email: '',
-    isSubscribed: false,
-  };
+  submitHandler = (values, formikBag) => {
+    console.log(values);
+    console.log(formikBag);
 
-  handleSubmit = (e) => {
-    try {
-      e.preventDefault();
-
-      const values = SIGN_UP_CHEMA.validateSync(this.state);
-
-      // const isValidated = SIGN_UP_CHEMA.isValidSync(this.state)
-
-      signupUser(values);
-    } catch (error) {
-      console.dir(error);
-    }
-  };
-
-  handleChange = (e) => {
-    const {
-      target: { value, checked, name, type },
-    } = e;
-
-    const newValue = type === 'checkbox' ? checked : value;
-
-    this.setState({
-      [name]: newValue,
-    });
+    formikBag.resetForm();
   };
 
   render() {
-    const { login, password, passwordConfirm, email, isSubscribed } =
-      this.state;
     return (
-      <form
-        onSubmit={this.handleSubmit}
-        style={{
-          display: 'flex',
-          width: '300px',
-          flexDirection: 'column',
-          margin: '0 auto',
-          gap: '10px',
+      <Formik
+        initialValues={{
+          login: '',
+          password: '',
+          passwordConfirm: '',
+          email: '',
+          isSubscribed: false,
+          userPlan: ''
         }}
+        onSubmit={this.submitHandler}
       >
-        <input
-          name="login"
-          placeholder="Login"
-          value={login}
-          onChange={this.handleChange}
-        />
-        <input
-          name="password"
-          placeholder="password"
-          type="password"
-          value={password}
-          onChange={this.handleChange}
-        />
-        <input
-          name="passwordConfirm"
-          placeholder="Repeat password"
-          type="password"
-          value={passwordConfirm}
-          onChange={this.handleChange}
-        />
-        <input
-          name="email"
-          type="email"
-          placeholder="email"
-          value={email}
-          onChange={this.handleChange}
-        />
-        <label>
-          <input
-            name="isSubscribed"
-            type="checkbox"
-            checked={isSubscribed}
-            onChange={this.handleChange}
-          />{' '}
-          Subscribe to news
-        </label>
-        <button type="submit">Sign Up</button>
-      </form>
+        {(formikProps) => {
+          // console.log(formikProps);
+
+          return (
+            <Form
+              style={{
+                display: 'flex',
+                width: '300px',
+                flexDirection: 'column',
+                margin: '0 auto',
+                gap: '10px',
+              }}
+            >
+              <Field name="login" placeholder="Login" />
+              <Field name="password" placeholder="password" type="password" />
+              <Field
+                name="passwordConfirm"
+                placeholder="Repeat password"
+                type="password"
+              />
+              <Field name="email" type="email" placeholder="email" />
+              <Field name="userPlan" placeholder="Login" as="select">
+                <option value='basic'>Basic</option>
+                <option value='pro'>Pro</option>
+              </Field>
+              <label>
+                <Field name="isSubscribed" type="checkbox" /> Subscribe to news
+              </label>
+              <button type="submit">Sign Up</button>
+            </Form>
+          );
+        }}
+      </Formik>
     );
   }
 }
