@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { SIGN_UP_CHEMA } from '../../utils/validationSchemas';
 
 function signupUser(user) {
-  console.log(user);
   alert('You are signed up!');
 }
+
 
 class SignupForm extends Component {
   state = {
@@ -15,10 +16,17 @@ class SignupForm extends Component {
   };
 
   handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(e);
+    try {
+      e.preventDefault();
 
-    signupUser(this.state);
+      const values = SIGN_UP_CHEMA.validateSync(this.state);
+
+      // const isValidated = SIGN_UP_CHEMA.isValidSync(this.state)
+
+      signupUser(values);
+    } catch (error) {
+      console.dir(error);
+    }
   };
 
   handleChange = (e) => {
