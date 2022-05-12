@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import cx from 'classnames';
 import { SIGN_UP_CHEMA } from '../../utils/validationSchemas';
 import styles from './SignupForm.module.scss';
+import Input from '../Input';
 
 function signupUser(user) {
   alert('You are signed up!');
@@ -32,18 +34,16 @@ class SignupForm extends Component {
         onSubmit={this.submitHandler}
       >
         {(formikProps) => {
-          console.log(formikProps);
           return (
             <Form className={styles.container}>
-              <Field name="login" placeholder="Login" />
-              <Field name="password" placeholder="password" type="password" />
-              <ErrorMessage name="password" />
-              <Field
+              <Input name="login" placeholder="Login" />
+              <Input name="password" placeholder="password" type="password" />
+              <Input
                 name="passwordConfirm"
                 placeholder="Repeat password"
                 type="password"
               />
-              <Field name="email" type="email" placeholder="email" />
+              <Input name="email" type="email" placeholder="email" />
               <Field name="userPlan" placeholder="Login" as="select">
                 <option value="basic">Basic</option>
                 <option value="pro">Pro</option>
